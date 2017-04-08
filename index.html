@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html lang="cs-cz">
+<head>
+      <title> DDMP APPKA power by SOCKET IO</title>
+      <meta charset="UTF-8">
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="/public/styles.css" type="text/css">
+  <!--data for dialog -->
+
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+<body>
+<header>
+  <div id="statusbar"></div>
+</header>
+
+<!-- form na zpracovani -->
+
+
+<form id="login">
+<fieldset>
+	<p>
+		<label>Nejdříve se musíte prihlásit</label>
+	</p>
+	<p><h3>Zadejte svou přezdívku</h3>
+		<input type="text" name="nick" id="nick">
+	</p>
+	<p>
+		<input type="submit" name="loginB" value="Vstoupit do hry">
+	</p>
+</fieldset>
+
+
+</form>
+<div id="stav">Nyní je přihlášeno: </div>
+<div class="chat-wrapp">
+
+<form id="send-message">
+            
+              <p>
+                <label>Zadejte zprávu, kterou chcete sdělit světu</label>
+              </p>
+              <p>
+                  <input type="text" name="message" id="message">
+              </p>
+              <p>
+            
+                  <!--<input type="submit" name="submit" value="Odeslat informaci do světa">-->
+                  <button id="submit"> <i class="fa fa-paper-plane fa-3" style="font-size: 30px; color: #fff" aria-hidden="true"></i></button>
+               </p>
+
+               <i class="fa fa-paper-plane fa-3" aria-hidden="true"></i>
+  </form>
+
+  <div id="chat" class="style-chat"></div>
+  <div id="upgrades"></div>
+
+
+
+</div>
+<form id="action">
+	<input type="submit" value="action button" id="actionBtn">
+</form>
+<div class="dialog"></div>
+<div id="hide-money"></div>
+<div class="status" id="status"><h3>Seznam uživatelů</h3></div>
+<div id="list"></div>
+<div id="add"></div>
+<input type="submit" id="button" value="button">
+<div class="symbol"></div>
+<form id="cashArea">
+  <button id="cash" value="1111"><i class="fa fa-usd fa-3" style="background-color: orange; color: white; font-size: 30px" aria-hidden="true"></i></button>
+</form>
+
+
+<!--SKRIPT PRO PŘIPOJENÍ-->
+<!-- TEST JQUERY-->
+<script>
+        var socket = io.connect("http://localhost:3000");
+        socket.on('connect', function(data){
+           console.log("ghgfhgjgjgjlgfjfgfjhgjh,f jhnmfj,ghk,ghjfgjghgfmgh");
+        });
+
+
+       
+       alert("OK tady to jede"); 
+
+       
+       $("input:submit").click(function(){
+       		//alert("OK, zprráva byla poslána");
+       })
+
+       socket.on('new message', function(data) {
+       		
+
+          if(data) {
+              var jmeno = $("#nick").val();
+              var num = new Array();
+              num.push('3', socket.id, $("#nick").val(), $("#message").val());
+              /*
+              num[2] = $("#nick").val();
+              console.log(num[2]);
+              */
+
+              console.log(num);
+          }
+         
+          $("#chat").append("<li><b>" + /*mojedata.users[mojedata.length-1].id*/ data.author + " </b>" + data.msg + "</li>");
+          for (var i = 0; i < mojedata.length; ++i){
+            console.log(mojedata[i].jmeno);
+          }
+          
+          
+
+
+       });
+     
+
+       
+
+       socket.on('stat', function(data){
+       		$("#status").css("background-color", "green");
+       		$("#status").append("<li>" + data + "</li>");
+       		$("#chat").hide();
+
+
+       });
+
+       socket.on('akce', function(data){
+       		//$("#status").append("<img src='http://maturita.albertpatera.cz/dlouhodobka/img/coins.png'>");
+       		$("#hide-money").append("<img src='http://findicons.com/files/icons/193/financial/48/green_dollar.png'>");
+       		$("#hide-money").fadeIn(350);
+       		$("#hide-money").fadeOut(500);
+       		
+       })
+
+       var $mf = $("#send-message");
+       var $ab = $("#action");
+       var $lf = $("#login");
+       var $mb = $("#cashArea");
+
+
+       //This is function for display text to chat
+       $mf.submit(function(e){
+       		e.preventDefault();
+       		//console.log("Pressed");
+       		socket.emit('new message', $("#message").val());
+       		$("#message").val('');
+
+       });
+
+         $mb.submit(function(e){
+        e.preventDefault();
+        console.log("akce na tlacitko");
+        socket.emit('hit', $("#cash").val());
+        $("#cash").val('');
+
+       });
+
+       /*for(var i = 0; i < socket_list.length; i++) { 
+    console.log(socket_list[i].id); 
+}
+
+*/
+       //login area
+
+       socket.on('login', function(data){
+       window.mojedata = data;
+       	  console.log(mojedata.users.length);
+          
+          //for (var i = 0; i < mojedata.users.length; i++) {
+             $("#status").append('<li>' + mojedata.users[mojedata.users.length -1].jmeno + '</li>');
+             $("#stav").html('<li class="online">' + mojedata.users.length + "</li>");
+             $("#statusbar").html('<li>Na účtě máš:<b>' + mojedata.users[mojedata.users.length -1].penize + '</li>');
+
+             if(data) {
+              //$lf.hide(5);
+             }
+
+          //}
+             /*
+          for(var i = 0; i < mojedata.length; i++) {
+            mojedata[i].jmeno;
+          }
+          */
+
+          //for (var i = 0; mojedata.length;)
+
+
+
+
+
+          console.log(mojedata);
+          
+          console.log("-------------");
+          console.log(mojedata.users);
+          console.log("-------------");
+
+          console.log(mojedata)
+          html = '';
+          for(var i = 0; i < mojedata.length; ++i){
+            console.log("data uzivatele v konzoli");
+          }
+
+          
+
+          //$("#status").html(html);
+
+         
+
+
+          
+          
+          
+       		
+       		//podmínka, jestli byly přijaty nějaká data
+       		if(!data){
+       			//$("#chat").fadeIn(3000);
+       			$("body").css("background-color", "red");
+       			$("#chat").hide();
+       			alert("Nebyla zadána zpráva");
+       		} else {
+       			//$("#chat").hide();
+       			//$("body").css("background-color", "#0073f7");
+       			$("#chat").fadeIn(1500);
+       		}
+       });
+
+       socket.on('point', function(data){
+        console.log('ok');
+        for(var i = 0; i < data.length; i++)
+        {
+          $("#status").append("Ahojk");
+        }
+       })
+       //login area - submit data from form 
+
+       $lf.submit(function(e){
+       	e.preventDefault();
+       	console.log("Prihlaseni uzivatele " + $("#nick").val() + " bylo uspesne");
+       	socket.emit('login', $("#nick").val());
+       	$("#nick").val('');
+       });
+
+       socket.on('connection', function(socket){
+        $("#stav").html('<li>' + mojedata.users.length + "</li>");
+       })
+       
+       socket.on('hit', function(data){
+        console.log(data);
+        $("#statusbar li b").html(data.plus );
+        socket.emit('get-upgrades', {});
+        $("#chat").append(data.jmeno);
+
+       })
+
+       socket.on('refresh-users', function(data){
+        $("#status ul").html("");
+        for(var i = 0; i < data.users.length; i++) {
+          $("#status ul").append("<li>"+data.users[i].jmeno+"</li>");
+        }
+       });
+
+       socket.on('get-upgrades', function(data){
+        console.log('vylepseni' , data);
+         
+          $("#upgrades").html("<ul></ul>");
+          for(var i = 0; i < data.upgrades.length; i++) {
+            var u = data.upgrades[i];
+            if (u.dostupny) {
+              $("#upgrades ul").append(
+                "<li>"
+                + u.nazev + ": " +u.cena
+                + "<span class='fa fa-shopping-cart fa-2'>"
+                + " <button class='koupit' data-id='"+i+">Zakoupit</button>"
+                + "</span>"
+                + "</li>" 
+                
+              );
+
+              $(".symbol").html("<span class='fa fa-usd fa-2'></span>");
+              $(".symbol").append().html("");
+              $(".symbol").fadeIn(3500);
+              $(".symbol").fadeOut(5000);
+              $(".symbol").animate({top: '250px'});             
+    // Animation complete.
+              $(".symbol").css("anime-duration", "4s");
+              
+            } else {
+              $("#upgrades ul").append("<li>" + u.nazev + ": " +u.cena+
+                 "</li>");
+            }
+
+            
+          }
+       })   
+
+       //functon while action button  will be pressed
+
+       
+
+       
+
+       $ab.submit(function(e){
+       	e.preventDefault();
+       	console.log("Action button was pressed");
+       	socket.emit('akce', $("#actionBtn").val());
+       	$("#status").val('');
+       });
+
+       
+
+
+       
+
+
+</script>
+
+<!-- Výpis dislogu -->
+
+<!--Testovací skript-->
+<script src="tests.js" type="text/javascript"></script>
+
+<script src="/public/main.js" type="text/javascript"></script>
+<script src="/public/image-definitions.js" type="text/javascript"></script>
+
+<!--hlavni script -->
+
+<footer>
+  <p>
+    Vytvořil <b>Albert Patera</b> &copy | Student Střední Průmyslové školy Mladá Boleslav | šk. rok 2016/17
+  </p>
+</footer>
+</body>
+</html>
