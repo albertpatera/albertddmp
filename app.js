@@ -29,12 +29,17 @@ upgrades  = [
       nazev: 'koule',
       cena: 5,
       zvyseni: 100000
+    },
+    {
+      nazev: 'Zázrak', 
+      cena: 5000, 
+      zvyseni: 0
     }
 ]
 
 num = [];
 auth = [];
-//@TODO vyresit zlepseni 
+//@TODO vyresit zlepseni (zvyseni o N-peněz)
 //external file - configuration
 //express.use('/external', app.static('external'));
 //work with extranal file 
@@ -51,7 +56,7 @@ server.listen(process.env.port || 3000);
 server.listen(3000);
 	app.get('/', function(req, res) {
 		res.sendfile(__dirname + '/index.html');
-    console.log("1");
+    
     
     console.log('Listening on *:3000');
   console.log('Server allready started');
@@ -60,12 +65,11 @@ server.listen(3000);
 	});
 
 
-console.log("tady je to ok");
+console.log("Server is loading...");
 socket.on('connection', function(socket) {
     //login users function
 
    connections.push(socket);
-   console.log("tady taky ok okokok kokomo koko komomoo");
    console.log("Connected: %s users", connections.length);
    console.log(socket.id);
    
