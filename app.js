@@ -1,275 +1,194 @@
+/*Definované konstanty */
+//Konfigurace serveru
+//TODO externi konfigurace (settings.json)
+var PRIRUSTEK = 1;
+var PORT = 3000;
+//Proměnná ve které je jádro aplikace
 var app = require('express')();
+//Http server pro aplikaci
 var server = require('http').createServer(app);
+//vytvoření socket serveru
 var io = require('socket.io').listen(server);
-var JQuery = require('jquery'); 
 var socket = io.listen(server);
+//Knihovna express
 var express = require('express');
-var count = 0;
-connections = [];
-users = [];
-upgrades  = [
+//Upgrades
+//Načtení z ext. souboru
+//UPGRADES.JSON
+upgrades = [
     {
-        nazev: 'test', 
-        cena: 5, 
-        skin: 'obr.png',
+        nazev: 'Building Kit',
+        cena: 50,
+        skin: '1.png',
         zvyseni: 2
     },
     {
-        nazev: 'test 2', 
-        cena: 10,
+        nazev: 'Drevo',
+        cena: 100,
+        skin: '2.png',
+        zvyseni: 5
+
+    },
+    {
+        nazev: 'Dreveny dum',
+        cena: 500,
+        skin: '3.png',
         zvyseni: 10
-
-    }, 
-    {
-      nazev: 'test3', 
-      cena: 50,
-      zvyseni: 10
     },
     {
-      nazev: 'koule',
-      cena: 5,
-      zvyseni: 100000
+        nazev: 'koule',
+        cena: 1000,
+        skin: '4.png',
+        zvyseni: 25
     },
     {
-      nazev: 'Zázrak', 
-      cena: 5000, 
-      zvyseni: 0
+        nazev: 'Zázrak',
+        cena: 50000,
+        skin: '7.png',
+        zvyseni: 1500
     }
-]
+];
+//Historie zpráv
+//Objekt, jeho atributy jsou hodnoty uzivatelu
+var users = {};
+var chat_history = [];
 
-num = [];
-auth = [];
-//@TODO vyresit zlepseni (zvyseni o N-peněz)
-//external file - configuration
-//express.use('/external', app.static('external'));
-//work with extranal file 
+/* Definice aplikace */
+//Frontend
 app.use(express.static('public'));
 app.use('/public', express.static('public'));
-
-app.use('/public', function(req, res, next){
-  console.log(req.url);
-  next();
-
-
-}); 
-server.listen(process.env.port || 3000);
-server.listen(3000);
-	app.get('/', function(req, res) {
-		res.sendfile(__dirname + '/index.html');
-    
-    
-    console.log('Listening on *:3000');
-  console.log('Server allready started');
-		
-	
-	});
-
-
-console.log("Server is loading...");
-socket.on('connection', function(socket) {
-    //login users function
-
-   connections.push(socket);
-   console.log("Connected: %s users", connections.length);
-   console.log(socket.id);
-   
-  //display point to status panel
-
-  socket.on('point', function(data){
-    console.log("ahoj, vse je ok");
-    socket.emit('point', {pts: data})
-  }) 
-   
-   
-
-    //funkce odhlásit se 
-
-    socket.on('disconnect', function(data){
-      connections.splice(connections.indexOf(socket),1);
-    console.log("Disconnected: %s socket Disconnected %s", connections.length, users.length);
-    console.log(users.length);
-    
-  });
-
-
-
-  //Zpráva v chatu
-  socket.on('new message', function(data){
-     console.log('Napsaal jsi: ' +data);
-     var jmeno = undefined;
-     for(var i=0;i<users.length;i++) {
-        if(socket.id == users[i]["id"]) {
-            jmeno = users[i]["jmeno"];
-        }   
-     }
-
-     io.sockets.emit('new message', {msg: data, author: jmeno});
-     //io.sockets.emit('new message', socket.id);
-     //io.sockets.emit('new message', {msg: users});
-     
-
-     num.push("ahojkly", {msg: data}, {msg: users});
-
-     console.log(num);
-     auth.push("USER ID: " + socket.id);
-    console.log(auth);
-    console.log("tvoje zpráva je" + data);
-   
-
-    /*var x = {};
-    //x["socket.id"] = "data";
-    x[socket.id] = data;
-    console.log(x);
-    */
-  });
-
-  /*
-  socket.on('send message', function(data){
-    console.log(data);
-    io.sockets.emit('new message', {msg:data})
-  })
-  */
-
-  //Status functions
-
-  socket.on('stat', function(data){
-     console.log('login-data:' +data);
-     //io.sockets.emit('new message', {msg: data});
-     
-  });
-
-  socket.on('akce', function(data){
-    console.log('Sebral jsi +1 zlatak' + data.users);
-    io.sockets.emit('akce', {money: data});
-
-    
-      var x = {}
-        x["penize"] = "1";
-  
-    
-    
-    users.push(x);
-    console.log(x.penize);
-    console.log(x);
-  })
-
- 
-
-  //login area
-  socket.on('hit', function(data){
-    console.log("HIT +1");
-   
-     for(var i=0;i<users.length;i++) {
-        if(socket.id == users[i]["id"]) {
-             // @TODO nastavit penize
-            penize = 1;
-            users[i].penize++;
-
-            io.sockets.emit('hit', {plus: users[i].penize});
-            console.log(users[i].penize + " " + users[i].jmeno);
-            
-            break;
-
-
-        }   
-     }
-     
-      
-
-    console.log(data);
-  })
-  socket.on('login', function(data){
-    console.log('data uzivatelu' + data);
-    
-    
-    if(data){
-      console.log('Data prijata');
-      var x = {};
-    
-      x["id"] = socket.id;
-      x["jmeno"] = data;
-      x["penize"] = 0;  
-      console.log(x);
-      users.push(x);
-      console.log(x.jmeno);
-      console.log("pemnkjhklj" + x.penize);
-    
-    /*
-    if(x.penize == "0") {
-      x["penize"] += 1;
-      console.log(x.penize);
-      while(x["penize"] += 1)
-      {
-        console.log()
-      }
-    } else
-    {
-      x["penize"] += 2
-      console.log(x.penize);
-    }
-    */
-    var activeUsers = [];
-    for(var i = 0; i < connections.length; i++) {
-      for(var j = 0; j < users.length; j++) {
-        if(users[j].id == connections[i].id)
-        {
-          activeUsers.push(users[j]);
-        }
-      }
-    }
-    console.log(activeUsers);
-    console.log(users);
-    //console.log(connections);
-    
-    for(var i in x) {
-        x["penize"] += 2;
-    }
-
-    for(var i = 0; i < x.penize; i++) {
-      x["penize"] = "0";
-      console.log(x.penize);
-    }
-
-    
-    console.log(x.penize);
-    console.log(x);
-
-    console.log("Vypis: " + x.jmeno + "Penize: " +x.penize);
-    io.sockets.emit('login', {users: activeUsers});
-    io.sockets.emit('refresh-users', {users: activeUsers});
-    } else {
-      console.log('Uzivatel jeste nebyl prihlasen');
-    }
-    
-  })
-
-
-socket.on('get-upgrades', function(data){
-    for(var i=0;i<users.length;i++) {
-        if(socket.id == users[i]["id"]) {
-          var users_upgrade = upgrades;
-            for(var j = 0; j < upgrades.length; j++)
-            {
-                if(users[i].penize >= upgrades[j].cena) {
-                  users_upgrade[j].dostupny = true;
-
-                } else
-                {
-                  users_upgrade[j].dostupny = false;
-                }
-                if(upgrades[j].dostupny == true) {
-                    users[i].penize += upgrades[i].zvyseni;
-                }
-            }
-       io.sockets.emit('get-upgrades', {upgrades: users_upgrade});
-
-
-
-        }
-      }
-})
-
+app.use('/public', function (req, res, next) {
+    console.log(req.url);
+    next();
 });
+server.listen(process.env.port || PORT);
+server.listen(PORT);
+console.log('Listening on *:' + PORT);
+//Funkce při připojení uživatele na kořenový adresář
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
+
+//Nové spojení
+socket.on('connection', function (socket) {
+    console.log(socket.id);
+    //p�ihl�en� u�ivatele
+    socket.on('login', function (data) {
+        if (!data || data.length === 0)
+            return;
+        //Vytvoření nového uživatele
+        var x = {};
+        x["id"] = socket.id;
+        x["jmeno"] = data;
+        x["penize"] = 0;
+        x["skin"] = "1.png";
+        x["upgrades"] = [];
+        for(var i =0; i<upgrades.length; ++i)
+            x["upgrades"][i] = 0;
+        users[socket.id] = x;
+        console.log("Prihlsen uzivatel %s", data);
+        console.log(x.skin)
+        io.sockets.emit('refresh-users', {users: users});
+        socket.emit('refresh-upgrades', upgrades);
+        socket.emit('refresh-user-data', users[socket.id]);
+        io.sockets.emit('login', {users: "test"});
+    });
+    //Odpojeni
+    socket.on('disconnect', function (data) {
+        delete(users[socket.id]);
+        console.log("Odhlasen uzivatel, zbyva %d", Object.keys(users).length);
+        //var jmeno = users[socket.id].jmeno;
+        var message = {};
+        chat_history.push(message);
+
+    io.sockets.emit('new message', {text: "Hrac opustil hru, tesime se priste", author: "SYSTEM"});
+
+
+    });
+    //Nova zprava
+    socket.on('new message', function (data) {
+        try {
+            var jmeno = users[socket.id].jmeno;
+        } catch (error) {
+            console.log("Problem s hledanim uzivatele %s", error);
+            return;
+        }
+        var message = {};
+        message.text = data;
+        message.author = jmeno;
+        console.log("Nova zprava od %s %s", message.text, message.author);
+        io.sockets.emit('new message', message);
+        chat_history.push(message);
+    });
+    //V�d�lek
+    socket.on('hit', function (data) {
+
+        users[socket.id].penize += PRIRUSTEK;
+        //var moneyLenght = users.penize.toString().length;
+        for(var i = 0; i<users[socket.id].upgrades.length; ++i) {
+            users[socket.id].penize += users[socket.id].upgrades[i] * upgrades[i].zvyseni;
+        }
+
+
+
+        socket.emit('refresh-user-data', users[socket.id]);
+
+        //zjisti, jestli uzivatel prekrocil hranici
+
+        switch(users[socket.id].penize)
+        {
+            case 5:
+                var jmeno = users[socket.id].jmeno;
+                console.log(" | SYSTEM |   hrac " + jmeno + " disp. cast. 5 $");
+                //io.sockets.emit('new message', 'hrac %s dispoonuje castkou 100 $');
+                var message = {};
+                message.infoA = jmeno;
+                io.sockets.emit('new message', {text: "Disponuji castkou 5 $...", author: jmeno});
+                console.log("Test..... %s", message.infoA);
+            break;
+            case 50:
+                var jmeno = users[socket.id].jmeno;
+                console.log(" | SYSTEM |   hrac " + jmeno + " disp. cast. 50 $ ");
+                var message = {};
+                message.infoA = jmeno;
+                io.sockets.emit('new message', {text: "Disponuji castkou 50 $...", author: jmeno});
+                console.log("Test..... %s", message.infoA);
+
+                /*
+                if(users[socket.id].penize) {
+
+                    io.sockets.emit('new message', {text: "NO UPGRADES", author: "SYSTEM"});
+
+                    console.log("undefines")
+                } else {
+                    console.log("no results");
+                }
+                */
+                break;
+        }
+
+
+
+
+
+
+
+
+    });
+    //Nákup
+    socket.on('buy', function (data) {
+        pozadovany_upgrade = upgrades[data];
+        if(pozadovany_upgrade === undefined)
+            return;
+        if(pozadovany_upgrade.cena > users[socket.id].penize)
+            return;
+        users[socket.id].upgrades[data]++;
+        users[socket.id].penize-=pozadovany_upgrade.cena;
+        socket.emit("refresh-user-data", users[socket.id]);
+        socket.emit("new upgrade", {id: data, count: users[socket.id].upgrades[data]});
+    });
+});
+
 
 
 
