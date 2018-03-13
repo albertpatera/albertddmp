@@ -25,12 +25,13 @@ var chat_history = [];
 //Frontend
 app.use(express.static('public'));
 app.use('/public', express.static('public'));
-app.use('/public', function (req, res, next) {
     console.log(true);
+app.use('/public', function (req, res, next) {
     console.log(req.url);
     next();
 
 });
+
 server.listen(process.env.port || PORT);
 server.listen(PORT);
 console.log('Listening on *:' + PORT);
