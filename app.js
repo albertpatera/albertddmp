@@ -2,16 +2,44 @@
 //Konfigurace serveru
 //TODO externi konfigurace (settings.json)
 var PRIRUSTEK = 1;
-var PORT = 3000;
+var PORT = 25565;
 //Proměnná ve které je jádro aplikace
 var app = require('express')();
 //Http server pro aplikaci
-var server = require('http').createServer(app);
+var server = require('http').Server(app);
+
 //vytvoření socket serveru
 var io = require('socket.io').listen(server);
 var socket = io.listen(server);
 //Knihovna express
 var express = require('express');
+
+//Historie zpráv
+//Objekt, jeho atributy jsou hodnoty uzivatelu
+var users = {};
+var chat_history = [];
+
+
+
+/* Definice aplikace */
+//Frontend
+app.use(express.static('public'));
+app.use('/public', express.static('public'));
+app.use('/public', function (req, res, next) {
+    console.log(true);
+    console.log(req.url);
+    next();
+
+});
+server.listen(process.env.port || PORT);
+server.listen(PORT);
+console.log('Listening on *:' + PORT);
+//Funkce při připojení uživatele na kořenový adresář
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
+
+
 //Upgrades
 //Načtení z ext. souboru
 //UPGRADES.JSON
@@ -19,7 +47,7 @@ upgrades = [
     {
         nazev: 'Building Kit',
         cena: 50,
-        skin: '1.png',
+        skin: 'BK.png',
         zvyseni: 2
     },
     {
@@ -44,30 +72,10 @@ upgrades = [
     {
         nazev: 'Zázrak',
         cena: 50000,
-        skin: '7.png',
+        skin: 'miracle.png',
         zvyseni: 1500
     }
 ];
-//Historie zpráv
-//Objekt, jeho atributy jsou hodnoty uzivatelu
-var users = {};
-var chat_history = [];
-
-/* Definice aplikace */
-//Frontend
-app.use(express.static('public'));
-app.use('/public', express.static('public'));
-app.use('/public', function (req, res, next) {
-    console.log(req.url);
-    next();
-});
-server.listen(process.env.port || PORT);
-server.listen(PORT);
-console.log('Listening on *:' + PORT);
-//Funkce při připojení uživatele na kořenový adresář
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
 
 //Nové spojení
 socket.on('connection', function (socket) {
