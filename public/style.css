@@ -1,0 +1,51 @@
+.author {
+    color: green;
+    font-weight:bold;
+}
+
+#styleUp {
+    width:100%;
+}
+
+.jmeno {
+    font-weight: bold;
+
+}
+
+#write {
+    font-size: 35px;
+    float: right;
+}
+
+
+.panize {
+    font-family: "Courier New";
+    font-weight: bold;
+
+}
+
+.logo {
+    background-image: url("/public/logosps.png");
+    width: 150px;
+    height: 93px;
+    float: right;
+}
+
+#styleMoney {
+    width:100%;
+}
+
+#styleMoney button {
+    display: block;
+    margin: 0 auto;
+    width:50%;
+}
+
+
+
+
+#chat {
+    overflow-y: scroll;
+    height: 800px;
+}
+
