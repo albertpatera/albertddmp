@@ -164,11 +164,14 @@ socket.on('connection', function (socket) {
                 message.infoA = jmeno;
                 io.sockets.emit('new message', {text: "Disponuji castkou 50 $...", author: jmeno});
                 console.log("Test..... %s", message.infoA);
+                break;
             case 10:
                 var jmeno = users[socket.id].jmeno;
                 console.log('new message', {text: 'Dosahl jsem nove urovene vylepseni', author: jmeno});
+                break;
             case 75000:
                 console.log('new message', {text: 'N\yni si muzes postavit byt a nastehovat se. Ovsem aby ses mohl nastehovat, potrebujes stehovaci vuz'});
+                break;
                 /*
                 if(users[socket.id].penize) {
 
