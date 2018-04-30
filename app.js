@@ -54,7 +54,7 @@ upgrades = [
     {
         nazev: 'Drevo',
         cena: 100,
-        skin: '2.png',
+        skin: 'log.png',
         zvyseni: 5
 
     },
