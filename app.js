@@ -2,7 +2,7 @@
 //Konfigurace serveru
 //TODO externi konfigurace (settings.json)
 var PRIRUSTEK = 1;
-var PORT = 25565;
+var PORT = 3000;
 //Proměnná ve které je jádro aplikace
 var app = require('express')();
 //Http server pro aplikaci
@@ -77,6 +77,8 @@ upgrades = [
         zvyseni: 1500
     }
 ];
+
+
 
 //Nové spojení
 socket.on('connection', function (socket) {
@@ -162,7 +164,11 @@ socket.on('connection', function (socket) {
                 message.infoA = jmeno;
                 io.sockets.emit('new message', {text: "Disponuji castkou 50 $...", author: jmeno});
                 console.log("Test..... %s", message.infoA);
-
+            case 10:
+                var jmeno = users[socket.id].jmeno;
+                console.log('new message', {text: 'Dosahl jsem nove urovene vylepseni', author: jmeno});
+            case 75000:
+                console.log('new message', {text: 'N\yni si muzes postavit byt a nastehovat se. Ovsem aby ses mohl nastehovat, potrebujes stehovaci vuz'});
                 /*
                 if(users[socket.id].penize) {
 

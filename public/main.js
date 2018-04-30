@@ -1,5 +1,5 @@
 //P�ipojen� na server
-var socket = io.connect("http://localhost:3000");
+var socket = io.connect("http://31.31.78.67:3000");
 //P�ihl�en�
 var $lf = $("#loginForm");
 var $cf = $("#chatMsg");
