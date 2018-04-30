@@ -123,6 +123,7 @@ socket.on('new message', function (data) {
         $("#chat ul").append("<li class='list-group-item'><span class='author'>" + data.author + " </span><span class='msg'>" + data.text + "</span></li>");
 
 
+
 });
 //Nov� data u�ivatele
 socket.on("refresh-user-data", function (data) {

@@ -170,7 +170,7 @@ socket.on('connection', function (socket) {
                 console.log('new message', {text: 'Dosahl jsem nove urovene vylepseni', author: jmeno});
                 break;
             case 75000:
-                console.log('new message', {text: 'N\yni si muzes postavit byt a nastehovat se. Ovsem aby ses mohl nastehovat, potrebujes stehovaci vuz'});
+                console.log('new message', {text: 'N\yni si muzes postavit byt a nastehovat se. Ovsem aby ses mohl nastehovat, potrebujes stehovaci vuz', author:jmeno});
                 break;
                 /*
                 if(users[socket.id].penize) {
