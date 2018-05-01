@@ -232,7 +232,7 @@ socket.on('connection', function (socket) {
     socket.on('upgradesBetter', function(data) {
         for (var i = 0; i < users[socket.id].betterUpgrades.length; ++i) {
             console.log('new upgrades found');
-            socket.emit('')
+            console.log('Ok');
         }
     })
 });
