@@ -78,6 +78,30 @@ upgrades = [
     }
 ];
 
+betterUpgrades = [
+    {
+        nazev: 'Stehovaci vuz',
+        cena: 7500000,
+        skin: 'car.png',
+        zvyseni: 0.2
+    },
+    {
+        nazev: 'benzin',
+        cena: 15000,
+        skin: '21.png',
+        zvyseni: 0
+
+    },
+    {
+        nazev: 'pozemek',
+        cena: 2500000,
+        skin: '5.png',
+        zvyseni: 1000,
+
+    }
+
+]
+
 
 
 //Nové spojení
@@ -205,6 +229,12 @@ socket.on('connection', function (socket) {
         socket.emit("refresh-user-data", users[socket.id]);
         socket.emit("new upgrade", {id: data, count: users[socket.id].upgrades[data]});
     });
+    socket.on('upgradesBetter', function(data) {
+        for (var i = 0; i < users[socket.id].betterUpgrades.length; ++i) {
+            console.log('new upgrades found');
+            socket.emit('')
+        }
+    })
 });
 
 

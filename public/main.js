@@ -44,21 +44,21 @@ function poslatZpravu(zprava) {
  * Funkce pro načtení všech dostupných vylepšení
  * @param {string} upgrades Název Upgradu
  */
-function nacistUpgrady(upgrades) {
-    $("#upgradesList ul").html("");
-    for (var i = 0; i < upgrades.length; ++i) {
-        var li = '<li class="list-group-item" id="upgrade'+i+'">' +
+    function nacistUpgrady(upgrades) {
+        $("#upgradesList ul").html("");
+        for (var i = 0; i < upgrades.length; ++i) {
+            var li = '<li class="list-group-item" id="upgrade'+i+'">' +
                 '<img src="public/'+upgrades[i].skin+'">' +
                 '<span class="nazev">'+upgrades[i].nazev+'</span> ' +
                 '<span class="cena">'+upgrades[i].cena+'</span> ' +
                 '<span class="vynos">'+upgrades[i].zvyseni+'</span> ' +
                 '<span class="pocet">0</span> ' +
                 '<button class="kup" class="btn-success" data-id="'+i+'">Kup</button></li>';
-        $("#upgradesList ul").append(li);
-    }
-    $(".kup").click(function(){
-        socket.emit('buy', $(this).data("id"));
-    });
+            $("#upgradesList ul").append(li);
+        }
+        $(".kup").click(function(){
+            socket.emit('buy', $(this).data("id"));
+        });
 }
 
 $lf.submit(function (e) {
@@ -148,4 +148,22 @@ $(document).ready(function() {
 $(".list-group-item").click(function () {
     $(".list-group-item").animate({ scrollDown: $(document).height() }, "slow")
 });
+
+//better upgrades level 2
+function nacistUpgrady2(upgrades) {
+    $("#upgradesList ul").html("");
+    for (var i = 0; i < betteUpgrages.length; ++i) {
+        var li = '<li class="list-group-item" id="upgrade'+i+'">' +
+            '<img src="public/'+upgrades[i].skin+'">' +
+            '<span class="nazev">'+upgrades[i].nazev+'</span> ' +
+            '<span class="cena">'+upgrades[i].cena+'</span> ' +
+            '<span class="vynos">'+upgrades[i].zvyseni+'</span> ' +
+            '<span class="pocet">0</span> ' +
+            '<button class="kup" class="btn-success" data-id="'+i+'">Kup</button></li>';
+        $("#upgradesList ul").append(li);
+    }
+    $(".kup").click(function(){
+        socket.emit('buy', $(this).data("id"));
+    });
+}
 
