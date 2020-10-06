@@ -18,4 +18,7 @@ For more information please visit local <b>Wiki</b> on the <a href='https://gith
   - <i>Albert Patera <a href='mailto:info@albertpatera.cz'>E-Mail</a> <a href='http://albertpatera.cz'>Website</a></i>
   </p>
 
-<h2><a href="http://31.31.78.67:3000">http://31.31.78.67:3000</a> | Comming soon... ;-)</h2>
+<h2><a href="http://31.31.78.67:3000"><a>http://31.31.78.67:3000 | Comming soon... ;-)</h2>
+
+### how to start 
+> node app.js
