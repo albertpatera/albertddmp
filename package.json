@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "canvas": "^2.6.1",
     "express": "*",
     "socket-io-server": "^1.0.5",
     "socket.io": "*"
