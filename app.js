@@ -2,7 +2,7 @@
 //Konfigurace serveru
 //TODO externi konfigurace (settings.json)
 var PRIRUSTEK = 1;
-var PORT = 3000;
+var PORT = 8000;
 //Proměnná ve které je jádro aplikace
 var app = require('express')();
 //Http server pro aplikaci
@@ -19,6 +19,13 @@ var express = require('express');
 var users = {};
 var chat_history = [];
 
+//require 2d canvas scene 
+
+let scene = require('./public/canvas-render');
+
+//export 
+
+exports.LatLon = scene;
 
 
 /* Definice aplikace */
@@ -33,7 +40,7 @@ app.use('/public', function (req, res, next) {
 });
 
 server.listen(process.env.port || PORT);
-server.listen(PORT);
+//server.listen(PORT);
 console.log('Listening on *:' + PORT);
 //Funkce při připojení uživatele na kořenový adresář
 app.get('/', function (req, res) {
@@ -61,7 +68,7 @@ upgrades = [
     {
         nazev: 'Dreveny dum',
         cena: 500,
-        skin: '3.png',
+        skin: 'wooden-house.png',
         zvyseni: 10
     },
     {
@@ -127,6 +134,13 @@ socket.on('connection', function (socket) {
         socket.emit('refresh-upgrades', upgrades);
         socket.emit('refresh-user-data', users[socket.id]);
         io.sockets.emit('login', {users: "test"});
+        const { createCanvas } = require('canvas')
+
+
+        console.log('super');
+
+        
+        
     });
     //Odpojeni
     socket.on('disconnect', function (data) {
