@@ -41,7 +41,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/detail', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/field.html');
 });
 
 //Upgrades
