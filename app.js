@@ -40,6 +40,9 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/detail', function (req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
 
 //Upgrades
 //Načtení z ext. souboru
