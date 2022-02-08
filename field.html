@@ -7,16 +7,28 @@
             var items = {};
             items = [
                 {
-                 title : "text"
-                }
+                 title : "About project",
+                 path : "/about"
+                },
+
+                {
+                 title : "Contact support",
+                 path : "/support"
+                },
+
             ];
                 var ret = "";
         for(var i = 0; i < items.length; i++) {
-            ret += "li";          
+            ret += "<li>" + items.title[i]+ "</li>";          
         }
+
             console.log(ret);
     </script>
 
-
+    <div class="mainframe">
+        <script>
+            $(".mainFrame").append(ret);
+        </script>
+    </div>
     </body>
 </html> 
