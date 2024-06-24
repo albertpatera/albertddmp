@@ -1,11 +1,11 @@
 //P�ipojen� na server
-var socket = io.connect("http://31.31.78.67:3000");
+var socket = io.connect("http://0.0.0.0:8000");
 //P�ihl�en�
 var $lf = $("#loginForm");
 var $cf = $("#chatMsg");
 var $msg = $("#chatMsg input");
-var $jmeno = $("#userData .jmeno");
-var $penize = $("#userData .penize");
+var $jmeno = $(".userData .jmeno");
+var $penize = $(".userData .penize");
 var $vydelek = $("#vydelek");
 /**
  * Funkce pro p�ihl�en� u�ivatele
@@ -74,6 +74,17 @@ $lf.submit(function (e) {
     prihlasitSe($("#nick").val());
     $("#nick").val('');
     $("#myModal").modal('hide');
+
+});
+
+$('#vydelek').click(function() {
+    const width = 1200
+        const height = 600
+
+        const canvas = createCanvas(width, height)
+        console.log|('functions allright set !');
+        const context = canvas.getContext('2d')
+        $("h1#super").append('hhhh');
 });
 
 $cf.submit(function (e) {
@@ -89,41 +100,20 @@ $cf.submit(function (e) {
 });
 $vydelek.click(function () {
     socket.emit('hit');
+    alert('jjj');
     //Kdyz hrac presahne urcity limit, vyskoci hlaska
     var Moneylength = users.penize.toString().length;
     if(Moneylength == 10) {
         alert("alert na penize");
     }
 
+    const width = 1200
+        const height = 600
 
-});
-/*
-$("").click(function(){
-    $("html, body").animate({
-        scrollTop: $(".test").offset().top
-    }, 2000);
-});
-
-*/
-
-/*SCROLL*/
-
-
-
-/*
- * Zachytávání signálů ze serveru
- */
-//Refresh users
-socket.on('refresh-users', function (data) {
-    console.log(data);
-    nacistUzivatele(data["users"]);
-});
-//Nov� zpr�va
-socket.on('new message', function (data) {
-        $("#chat ul").append("<li class='list-group-item'><span class='author'>" + data.author + " </span><span class='msg'>" + data.text + "</span></li>");
-
-
-
+        const canvas = createCanvas(width, height)
+        const context = canvas.getContext('2d')
+        $("#field").append('hhhh');
+        console.log('eee');
 });
 //Nov� data u�ivatele
 socket.on("refresh-user-data", function (data) {

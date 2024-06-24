@@ -24,7 +24,8 @@
     <div class="modal-content">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-        <h4 class="modal-title" id="myModalLabel">Přihlášení</h4>
+            <h2 class="modal-title">EarnToDie</h2>
+          <h4 class="modal-title" id="myModalLabel">Přihlášení</h4>
       </div>
       <div class="modal-body">
           <h3>Zadejte své jméno</h3>
@@ -52,10 +53,12 @@
                     <div class="well">
                         <div class="alert alert-info fade in" role="alert">
                             <div class="logo"></div>
-                            <div id="userData">
+                            <div class="userData">
                                 <span class="jmeno"></span>
                                 <span class="penize" style="font-family: 'Courier New'; font-weight: bold; color: #66bb6a"></span>
                             </div>
+
+                            <h1 id="super">nn</h1>
                         </div>
 
 
@@ -64,7 +67,32 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="weatherImage" id="weatherImage">
+                                        <img src="">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" class="btn btn-success">Save progress</a>
+                                        <canvas id="scene"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="weatherStatus">
+                                         <h3></h3>
+                                    </div>
+                                </div>
 
+                                <canvas id="field" width="800px" height="200px"></canvas>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="well">
@@ -77,17 +105,17 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4" id="styleMoney">
+                        <div class="col-md-4 wrap" id="styleMoney">
                             <div class="well">
 
                                 <button id="vydelek" class="btn btn-success"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span></button>
-
+                                <div id="s">uu</div>
                             </div>
 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4" id="styleUp">
+                        <div class="col-md-4 wrap" id="styleUp">
                             <div class="well">
                                 <h3>upgrades</h3>
                                 <div id="upgradesList">
@@ -100,15 +128,45 @@
                     </div>
                 </div>
 
-                <div class="col-md-8">
+                <div class="col-md-8 wrap">
 
                         <div id="chat" class="chat">
                             <ul class="well"></ul>
                         </div>
                     <form id="chatMsg">
-                        <input type="text" class="form-control">
-                        <button type="submit" class="btn btn-primary">Odeslat</button>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text"  class="form-control" style="font-family: Courier New">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary btn-lg">Post</button>
+                            </div>
+                        </div>
                     </form>
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="well">
+                                <div id="movingArea">
+                                    <ul class="list-group">
+                                        <li>super, i am working right now :) </li>
+                                    </ul>
+                                    <div class="col-md-12">
+                                        <div class="well">
+                                                <div class="userData">
+                                                    <h4 class="jmeno"></h4>
+                                                    <h3 class="penize display-4" style="font-family: 'Courier New',sans-serif; font-weight: bold; color: #66bb6a"></h3>
+                                                </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -120,6 +178,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
         <script src="/public/main.js"></script>
+        <script src="/public/time-changer.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>
 </html>
